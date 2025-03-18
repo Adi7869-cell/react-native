@@ -1,131 +1,127 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React, { useState } from 'react';
+import { Text, View, StyleSheet, Image, Button, StatusBar, SafeAreaView, TextInput, Alert } from 'react-native';
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+const Component = () => {
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
+    <>
+      <Text>Hello Aditya </Text>
+    </>
+  )
 }
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  const [color, setcolor] = useState("gray")
+  const [hide, sethide] = useState(false)
+  const[value, setValue] = useState('');
 
-  /*
-   * To keep the template simple and small we're adding padding to prevent view
-   * from rendering under the System UI.
-   * For bigger apps the reccomendation is to use `react-native-safe-area-context`:
-   * https://github.com/AppAndFlow/react-native-safe-area-context
-   *
-   * You can read more about it here:
-   * https://github.com/react-native-community/discussions-and-proposals/discussions/827
-   */
-  const safePadding = '5%';
+  const changeColor = () => setcolor(color == 'gray' ?  'orange' : 'gray')
+    
+
+  const visibilityOfBar = () => sethide(!(hide))
+  const onchangeText = (val: string) => {
+    
+    console.log('hii')
+    if (/^[0-9]*$/.test(val)) {
+      setValue(val);  
+    } else {
+        console.log("Invalid input, please enter numbers only");
+    }
+  }
 
   return (
-    <View style={backgroundStyle}>
+    <SafeAreaView style={styles.safeContent}>
       <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
+        animated={true}
+        backgroundColor={color}
+        hidden={hide}
+        barStyle='light-content'
       />
-      <ScrollView
-        style={backgroundStyle}>
-        <View style={{paddingRight: safePadding}}>
-          <Header/>
+
+      <View style={styles.container}>
+        <Text>Hello cloud kdjaijdiea</Text>
+      </View>
+      <View style={styles.box} >
+        <Text >ijdsi</Text>
+      </View>
+
+
+      <View>
+        <TextInput 
+        onChangeText={onchangeText}
+        placeholder='enter text'
+        value={value} 
+        keyboardType='numeric'
+        style={styles.input}/>
+
+        <Text>Your Entered number is {value} </Text>
+      </View>
+
+      <View style={styles.button}>
+        <Button onPress={changeColor} title='change bar color' />
+      </View>
+      <Button onPress={visibilityOfBar} title='change bar Visibility' />
+
+      <View>
+        <View style={{ backgroundColor: "red" }}>
+          <Image style={styles.first}
+            source={require('./Assests/nature_combo.png')}
+            resizeMode="stretch"
+            capInsets={{ top: 1, left: 4, bottom: 500, right: 600 }}
+          />
         </View>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-            paddingHorizontal: safePadding,
-            paddingBottom: safePadding,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </View>
+
+        <Image style={styles.tinyLogo}
+          source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
+          onLoad={() => console.log("image start loaded")}
+          blurRadius={6}
+          onLoadEnd={() => console.log("imaged end load")}
+          onError={() => console.log("imaged fail to load")}
+          // tintColor="pink"
+          onProgress={(event) => {
+            console.log(event)
+            const progress = event.nativeEvent.loaded / event.nativeEvent.total;
+            console.log(`Loading: ${progress * 100}%`);
+          }}
+        />
+      </View>
+      <Component />
+
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  safeContent: {
+    flex: 1
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
+  container: {
+    flexDirection: "row",
+    color: "orange"
+  },
+  box: {
+    height: 150,
+    width: 150,
+    backgroundColor: "green"
+  },
+  first: {
+    height: 90,
+
+    width: 90,
+  },
+  tinyLogo: {
+    height: 100,
+    marginBottom: 30,
+    width: 100,
+    borderRadius: 40,
+    resizeMode: 'cover',
+  },
+  button: {
+    marginBottom: 15
+  }, 
+  input:{
+
+  }
+})
 export default App;
