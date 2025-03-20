@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet,  Button, StatusBar, ScrollView ,SafeAreaView, Switch} from 'react-native';
+import { Text, View, StyleSheet,  Button, StatusBar, ScrollView ,SafeAreaView, Alert} from 'react-native';
 import Press from './Components/Press';
 import Input from './Components/Input';
 import ImageCon from './Components/ImageCon';
 import Home from './Components/Home';
 import CompanyData from './Components/CompanyData';
 import Switch_comp from './Components/Switch_comp';
+import InstaStories from './Components/InstaStories';
+import CompleteFlexBox from './Components/CompleteFlexBox';
+import SectionList_comp from './Components/SectionList_comp';
 
 const Component = () => {
   return (
@@ -27,14 +30,24 @@ function App() {
  
 
   return (
-    <ScrollView>
-    <SafeAreaView style={styles.safeContent}>
+    <ScrollView 
+    keyboardDismissMode="on-drag"
+    // endFillColor="lightgray"
+    bounces={false}
+    contentInset={{ top: 20, left: 10, bottom: 20, right: 10 }}
+    // onScroll={(event) => console.log(event.nativeEvent.contentOffset)}
+    showsVerticalScrollIndicator={false}>
+    <SafeAreaView  style={styles.safeContent}>
       <StatusBar
         animated={true}
         backgroundColor={color}
         hidden={hide}
         barStyle='light-content'
       />
+
+      <InstaStories/>
+      <SectionList_comp/>
+      <CompleteFlexBox/>
       <Switch_comp/>
       <Home/>
       <CompanyData/>
