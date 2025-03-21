@@ -29,7 +29,7 @@ function InstaStories() {
         <>
 
         <View style={styles.wrapper}>
-        <Text style={{fontSize:20, marginLeft:8, fontWeight:"bold"}}>Instagram</Text>
+        <Text style={{fontSize:20, marginLeft:8, fontWeight:"bold"}}>Amazon</Text>
 
         <ScrollView horizontal={true}
         // pagingEnabled={false}
