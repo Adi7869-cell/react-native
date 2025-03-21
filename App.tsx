@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet,  Button, StatusBar, ScrollView ,SafeAreaView, Alert} from 'react-native';
+import { Text, View, StyleSheet,  Button, StatusBar, ScrollView ,SafeAreaView, Alert, FlatListComponent} from 'react-native';
 import Press from './Components/Press';
 import Input from './Components/Input';
 import ImageCon from './Components/ImageCon';
@@ -9,7 +9,9 @@ import Switch_comp from './Components/Switch_comp';
 import InstaStories from './Components/InstaStories';
 import CompleteFlexBox from './Components/CompleteFlexBox';
 import SectionList_comp from './Components/SectionList_comp';
-
+ import FlatList_Comp from './Components/FlatList_Comp';
+import NextedFLatList from './Components/NestedFlatList';
+import OnceOpenClosedAnother from "./Components/OnceOpenClosedAnother"
 const Component = () => {
   return (
     <>
@@ -32,6 +34,7 @@ function App() {
   return (
     <ScrollView 
     keyboardDismissMode="on-drag"
+    style={{padding:2}}
     // endFillColor="lightgray"
     bounces={false}
     contentInset={{ top: 20, left: 10, bottom: 20, right: 10 }}
@@ -46,8 +49,11 @@ function App() {
       />
 
       <InstaStories/>
+      <FlatList_Comp/>
       <SectionList_comp/>
       <CompleteFlexBox/>
+      <NextedFLatList/>
+      <OnceOpenClosedAnother/>
       <Switch_comp/>
       <Home/>
       <CompanyData/>
