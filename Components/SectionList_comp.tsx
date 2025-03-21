@@ -1,42 +1,75 @@
-import React from 'react';
-import { View, Text, StyleSheet, SectionList } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, SectionList, TouchableOpacity , Alert} from 'react-native';
 
+interface FoodItem {
+    foodItem: string;
+    firstItem: string;
+}
+
+interface SectionData {
+    id:number
+    title: string;
+    food: string[];
+    first: string[];
+}
 const SectionList_comp = () => {
-    const DATA = [
+
+    const [refresh, setrefresh] = useState(false);
+    const DATA:SectionData[] = [
         {
             id: 1,
             title: 'Main dishes',
-            data: ['Pizza', 'Burger', 'Risotto'],
+            food: ['Pizza', 'Burger', 'Risotto'],
+            first: ['aaa', 'bbb', 'ccc'],
         },
         {
             id: 2,
             title: 'Sides',
-            data: ['French Fries', 'Onion Rings', 'Fried Shrimps'],
+            food: ['French Fries', 'Onion Rings', 'Fried Shrimps'],
+            first: ['aaa', 'bbb', 'ccc'],
         },
         {
             id: 3,
             title: 'Drinks',
-            data: ['Water', 'Coke', 'Beer'],
+            food: ['Water', 'Coke', 'Beer'],
+            first: ['aaa', 'bbb', 'ccc'],
         },
         {
             id: 4,
             title: 'Desserts',
-            data: ['Cheese Cake', 'Ice Cream'],
+            food: ['Cheese Cake', 'Ice Cream'],
+            first: ['aaa', 'bbb'],
         },
-
+        {
+            id: 5,
+            title: 'Breakfast',
+            food: ['Parantha', 'Curd', 'Roti'],
+            first: ['aaa', 'bbb', 'ccc'],
+        },
+        {
+            id: 6,
+            title: 'More Desserts',
+            food: ['Cheese Cake', 'Ice Cream'],
+            first: ['aaa', 'bbb', 'ccc'],
+        },
     ];
 
+       const combineFoodAndFirst = (food: string[], first: string[]): FoodItem[] => {
+        return food.map((foodItem:string, index:number) => ({
+            foodItem,
+            firstItem: first[index], 
+        }));
+    };
 
-    const renderItem = ({ item }: { item: string }) => {
+     const renderItem = ({ item }:{item:FoodItem}) => {
         return (
             <View style={styles.itemContainer}>
-                <Text style={styles.itemText}>{item}</Text>
+                <Text style={styles.itemText}>{item.foodItem} - {item.firstItem}</Text>
             </View>
         );
     };
 
-
-    const renderSectionHeader = ({ section: { title, id } }: { section: { title: string, id: number } }) => {
+     const renderSectionHeader = ({ section: { title, id } }: {section:{title:string,id:number}}) => {
         return (
             <View style={styles.headerContainer}>
                 <Text style={styles.headerText}>{id} {title}</Text>
@@ -44,29 +77,63 @@ const SectionList_comp = () => {
         );
     };
 
+      const sectionsWithData = DATA.map(section => ({
+        id:section.id,
+        title: section.title,
+        data: combineFoodAndFirst(section.food, section.first),  
+    }));
+
+    const ListHeaderComponent= ()=>{
+       return <View style={{flexDirection:"row", justifyContent:"space-between"}}> 
+                    <Text style={styles.staticHeader}>Food</Text>
+                    <TouchableOpacity onPress={()=>{
+                        // Alert.alert(refresh)
+                        setrefresh(!refresh)
+                        setTimeout(() => {
+                            setrefresh(false)
+                        }, 3000);
+                        
+                    }} style={{backgroundColor:"pink", borderRadius:5, padding:5}}>
+                      <Text>Refresh List</Text>  
+                    </TouchableOpacity>
+                </View>
+    }
+
     return (
         <View style={styles.container}>
             <SectionList
-                sections={DATA}
-                keyExtractor={(item, index) => item + index}
+                sections={sectionsWithData} // Use combined data
+                stickySectionHeadersEnabled={true}
+                keyExtractor={(item, index) => item.foodItem + index}  
                 renderSectionHeader={renderSectionHeader}
-                ListHeaderComponent={() => <Text style={styles.staticHeader}>Food</Text>}
+                // ItemSeparatorComponent={()=> <Text> </Text> }
+                onEndReached={()=>{console.log("reached end of the list ")
+                    // used for implementing inifinite scrolling..load more data
+                }}
+                onRefresh={()=>{console.log("Refresh")}}
+                refreshing={refresh}
+                ListHeaderComponent={ListHeaderComponent}
+
+                ListFooterComponent={()=><View>
+                    <Text>List will be updated soon.</Text>
+                </View>}
                 renderItem={renderItem}
                 SectionSeparatorComponent={() => <View style={styles.sectionSeparator} />}
             />
-
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         marginTop: 20,
     },
-
-    staticHeader:{
-        marginHorizontal:9, fontWeight:"bold", fontSize:20, color:"purple"
+    staticHeader: {
+        marginHorizontal: 9,
+        fontWeight: 'bold',
+        fontSize: 20,
+        color: 'purple',
     },
     sectionSeparator: {
         marginBottom: 10,
