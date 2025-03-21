@@ -9,9 +9,9 @@ const GeneralComponent = (props: { title: string; children: React.ReactNode }) =
                 <Text style={styles.sectionTitle}>
                     {props.title}
                 </Text>
-                <Text style={styles.sectionDescription}>
+                <View style={styles.sectionDescription}>
                     {props.children}
-                </Text>
+                </View>
             </View>
         </>
     );
